@@ -1,0 +1,7 @@
+.nav li a:hover:not(.active) {
+    background-color: darkgrey;
+}
+
+.nav .active {
+    background-color: darkgrey;
+}
