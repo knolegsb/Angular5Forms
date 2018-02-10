@@ -5,11 +5,12 @@
 
   <div class='panel-body'>
     <div class='row'>
-      <div class='col-md-2'>Filter By: </div>
-      <div class='col-md-4'>
-        <input type='text' class='form-control' [(ngModel)]="listFilter" />
+      <!-- <div class='col-md-2'>Filter By: </div> -->
+      <div class='col-md-offset-2 col-md-8'>
+        <input type='text' class='form-control' placeholder="Search" [(ngModel)]="listFilter" />
       </div>
     </div>
+    <br />
     <div class='row' *ngIf='listFilter'>
       <div class='col-md-6'>
         <h3>Filtered By: {{listFilter}}</h3>
@@ -42,7 +43,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor='let product of products | paginate: { itemsPerPage: 10, currentPage: p, totalItems: total } | productFilter:listFilter'>
+          <tr *ngFor='let product of pagedItems | productFilter:listFilter'>
             <td>
               <img [src]='product.imageUrl' 
                     [title]='product.productName | uppercase' 
@@ -67,7 +68,26 @@
             </td>
           </tr>
         </tbody>
-        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        <!-- <pagination-controls (pageChange)="p = $event"></pagination-controls> -->
+
+        <!-- pager -->
+        <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+          <li [ngClass]="{disabled:pager.currentPage === 1}">
+            <a (click)="setPage(1)">First</a>
+          </li>
+          <li [ngClass]="{disabled:pager.currentPage === 1}">
+            <a (click)="setPage(pager.currentPage - 1)">Previous</a>
+          </li>
+          <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+            <a (click)="setPage(page)">{{page}}</a>
+          </li>
+          <li [ngClass]="{disabled:pager.curentPage === pager.totalPages}">
+            <a (click)="setPage(pager.currentPage + 1)">Next</a>
+          </li>
+          <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+            <a (click)="setPage(pager.totalPages)">Last</a>
+          </li>
+        </ul>
       </table>
     </div>
   </div>

@@ -20,6 +20,7 @@ import { ProductCriteriaComponent } from './product-criteria/product-criteria.co
 import { ProductParameterService } from "../_services/product-parameter.service";
 import { PaginationModule } from 'ngx-bootstrap';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { PagerService } from "../_services/pager.service";
 
 @NgModule({
     imports: [
@@ -48,7 +49,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
         ProductService,
         ProductDetailGuard,
         ProductEditGuard,
-        ProductParameterService
+        ProductParameterService,
+        PagerService
     ]
 })
 export class ProductModule {}

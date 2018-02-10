@@ -5,6 +5,8 @@ import { ProductParameterService } from '../../_services/product-parameter.servi
 import { ProductCriteriaComponent } from '../product-criteria/product-criteria.component';
 import { IPagination, PaginatedResult } from '../../_interfaces/IPagination';
 import { ActivatedRoute } from '@angular/router';
+import * as _ from 'underscore';
+import { PagerService } from '../../_services/pager.service';
 
 @Component({
   selector: 'app-product-list',
@@ -24,15 +26,20 @@ export class ProductListComponent implements OnInit {
   filteredProducts: IProduct[];
   products: IProduct[];
 
-  p: number = 1;
-  total: number = 15;
+  // p: number = 1;
+  // total: number = 15;
 
-  pagination: IPagination;
+  //pagination: IPagination;
+
+  pager: any = {};
+  pagedItems: any[];
+
   @ViewChild(ProductCriteriaComponent) filterComponent: ProductCriteriaComponent;
   
   constructor(private productService: ProductService,
     private productParameterService: ProductParameterService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private pagerService: PagerService
   ) { }
 
   ngOnInit() {
@@ -45,31 +52,33 @@ export class ProductListComponent implements OnInit {
     //     })
     //   ;
 
-    //this.loadProducts();
+    this.loadProducts();
 
     // this.route.data.subscribe(data => {
     //   //this.pagination = data['products'].pagination;
     //   console.log(data);
     // })
 
-    this.productService.getProducts().subscribe(
-      (products: IProduct[]) => {
-        this.products = products;
-        this.filterComponent.listFilter = this.productParameterService.filterBy;
-      },
-      (error: any) => this.errorMessage = <any>error
-    );
+    // this.productService.getProducts().subscribe(
+    //   (products: IProduct[]) => {
+    //     this.products = products;
+    //     console.log(this.products);
+    //     this.filterComponent.listFilter = this.productParameterService.filterBy;
+    //     this.setPage(1);
+    //   },
+    //   (error: any) => this.errorMessage = <any>error
+    // );
   }
 
-  // loadProducts() {
-  //   this.productService.getProducts(this.pagination.currentPage = 3, this.pagination.itemsPerPage = 5)
-  //     //.subscribe(products => this.products = products,
-  //     //          error => this.errorMessage = <any>error
-  //       .subscribe((res: PaginatedResult<IProduct[]>) => {
-  //         this.products = res.result;
-  //         this.pagination = res.pagination;
-  //       });
-  // }
+  loadProducts() {
+    this.productService.getProducts()
+      //.subscribe(products => this.products = products,
+      //          error => this.errorMessage = <any>error
+        .subscribe((products: IProduct[]) => {
+          this.products = products;
+          this.setPage(1);
+        });
+  }
 
   onValueChange(value: string): void {
     this.productParameterService.filterBy = value;
@@ -98,4 +107,13 @@ export class ProductListComponent implements OnInit {
   //   this.pagination.currentPage = event.page;
   //   this.loadProducts();
   // }
+
+  setPage(page: number) {
+    if (page < 1 || page > this.pager.totalPages) {
+      return;
+    }
+    this.pager = this.pagerService.getPager(this.products.length, page);
+    
+    this.pagedItems = this.products.slice(this.pager.startIndex, this.pager.endIndex + 1);
+  }
 }
