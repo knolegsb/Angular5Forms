@@ -18,6 +18,8 @@ import { ProductShellListComponent } from "./product-shell/product-shell-list.co
 import { ProductShellDetailComponent } from "./product-shell/product-shell-detail.component";
 import { ProductCriteriaComponent } from './product-criteria/product-criteria.component';
 import { ProductParameterService } from "../_services/product-parameter.service";
+import { PaginationModule } from 'ngx-bootstrap';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
     imports: [
@@ -26,7 +28,9 @@ import { ProductParameterService } from "../_services/product-parameter.service"
         FormsModule,
         CommonModule,
         InMemoryWebApiModule.forRoot(ProductData, {dataEncapsulation: true}),
-        ProductRoutingModule
+        ProductRoutingModule,
+        PaginationModule.forRoot(),
+        NgxPaginationModule
     ],
     declarations: [
         ProductListComponent,

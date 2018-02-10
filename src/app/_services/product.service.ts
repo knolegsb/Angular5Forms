@@ -9,6 +9,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/observable/of';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { PaginatedResult } from '../_interfaces/IPagination';
 
 @Injectable()
 export class ProductService {
@@ -30,6 +31,22 @@ export class ProductService {
             .do(data => console.log('getProducts: ' + JSON.stringify(data)))
             .catch(this.handleError);
     }
+
+    // getProducts(page?: number, itemsPerPage?: number) {
+    //     const paginatedResult: PaginatedResult<IProduct[]> = new PaginatedResult<IProduct[]>();
+    //     let queryString = '?';
+    //     if (page != null && itemsPerPage != null) {
+    //         queryString += 'pageNumber=' + page + '&pageSize=' + itemsPerPage;
+    //     }
+
+    //     return this.http.get(this.baseUrl + '/products' + queryString)
+    //         .map((response: Response) => {
+    //             paginatedResult.result = response.json();
+
+    //             return paginatedResult;
+    //         })
+    //         .catch(this.handleError);
+    // }
 
     getProduct(id: number): Observable<IProduct> {
         if (id == 0)

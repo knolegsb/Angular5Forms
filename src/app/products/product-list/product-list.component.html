@@ -42,7 +42,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor='let product of products | productFilter:listFilter'>
+          <tr *ngFor='let product of products | paginate: { itemsPerPage: 10, currentPage: p, totalItems: total } | productFilter:listFilter'>
             <td>
               <img [src]='product.imageUrl' 
                     [title]='product.productName | uppercase' 
@@ -67,7 +67,17 @@
             </td>
           </tr>
         </tbody>
+        <pagination-controls (pageChange)="p = $event"></pagination-controls>
       </table>
     </div>
   </div>
 </div>
+
+<!-- <div class="text-center">
+  <pagination [boundaryLinks]="true" 
+    [totalItems]="pagination.totalItems"
+    [itemsPerPage]="pagination.itemsPerPage"
+    (pageChanged)="pageChanged($event)"
+    [(ngModel)]="pagination.currentPage" class="pagination-sm"
+    previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
+</div> -->

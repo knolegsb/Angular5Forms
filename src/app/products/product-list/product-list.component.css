@@ -1,3 +1,7 @@
 thead {
     color: #337ab7;
 }
+
+.ngx-pagination .current {
+    background: #337ab7;
+}
